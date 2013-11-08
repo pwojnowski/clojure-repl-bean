@@ -10,7 +10,7 @@ The REPL can be accessed in two ways:
   - -Dcljrepl.start=true - automatically starts nrepl after the bean has been created
   - -Dcljrepl.port=XXXX - port on which nrepl should be accessible (default: 4242)
 
-'''The REPL starts on *localhost*.
+   The REPL starts on *localhost*.
 
 2. Access from a web console available in **cljrepl-web** module.
   Use maven overlays to add the WAR to your project.

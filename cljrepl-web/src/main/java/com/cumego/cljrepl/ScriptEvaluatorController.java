@@ -1,6 +1,5 @@
 package com.cumego.cljrepl;
 
-import com.cumego.cljrepl.ClojureScriptEvaluator;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,13 +21,14 @@ public class ScriptEvaluatorController {
     private ClojureScriptEvaluator evaluator;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String getPrompt() {
+    public final String getPrompt() {
         return JSP_NAME;
     }
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody String evaluate(@RequestParam("expr") String expr) {
+    @ResponseBody
+    public final String evaluate(@RequestParam("expr") final String expr) {
         try {
             return evaluator.eval(expr).toString();
         } catch (ScriptException e) {

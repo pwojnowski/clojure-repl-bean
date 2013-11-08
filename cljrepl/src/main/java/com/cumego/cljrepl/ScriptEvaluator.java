@@ -15,9 +15,9 @@ import javax.script.ScriptException;
  */
 public abstract class ScriptEvaluator {
 
-    protected final ScriptEngine engine;
+    private final ScriptEngine engine;
 
-    protected ScriptEvaluator(String engineName) {
+    protected ScriptEvaluator(final String engineName) {
         if (engineName == null) {
             throw new IllegalArgumentException("Scripting engine name must not be null!");
         }
@@ -35,7 +35,7 @@ public abstract class ScriptEvaluator {
      * @return result of evaluation
      * @throws ScriptException
      */
-    public Object eval(final String script) throws ScriptException {
+    public final Object eval(final String script) throws ScriptException {
         return engine.eval(script);
     }
 
@@ -45,7 +45,7 @@ public abstract class ScriptEvaluator {
      * @return map of engine name to description
      */
     public static Map<String, List<String>> listEngines() {
-        Map<String,List<String>> engines = new ConcurrentHashMap<String,List<String>>();
+        Map<String, List<String>> engines = new ConcurrentHashMap<String, List<String>>();
         ScriptEngineManager engineManager = new ScriptEngineManager();
         for (ScriptEngineFactory factory : engineManager.getEngineFactories()) {
             String name = toReadableName(factory);
@@ -57,7 +57,11 @@ public abstract class ScriptEvaluator {
         return engines;
     }
 
-    private static String toReadableName(ScriptEngineFactory factory) {
+    protected final ScriptEngine getEngine() {
+        return engine;
+    }
+
+    private static String toReadableName(final ScriptEngineFactory factory) {
         return String.format("%s (%s), ver: %s", factory.getLanguageName(),
                 factory.getEngineName(), factory.getLanguageVersion());
     }

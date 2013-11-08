@@ -25,10 +25,10 @@ public class ClojureScriptEvaluator extends ScriptEvaluator {
     private static final String NREPL_START_SERVER
             = "(start-server :port %d)";
 
-    @Value("#{systemProperties['repl.start']?:false}")
+    @Value("#{systemProperties['cljrepl.start']?:false}")
     private boolean autostart;
 
-    @Value("#{systemProperties['repl.port']?:4242}")
+    @Value("#{systemProperties['cljrepl.port']?:4242}")
     private int port;
 
     @Resource
@@ -39,10 +39,10 @@ public class ClojureScriptEvaluator extends ScriptEvaluator {
     }
 
     @PostConstruct
-    public void init() throws ScriptException {
-        Bindings bindings = engine.createBindings();
+    public final void init() throws ScriptException {
+        Bindings bindings = getEngine().createBindings();
         bindings.put("*context*", context);
-        engine.setBindings(bindings, ScriptContext.ENGINE_SCOPE);
+        getEngine().setBindings(bindings, ScriptContext.ENGINE_SCOPE);
         log.debug("Loading nrepl...");
         eval(NREPL_INIT_CODE);
         if (autostart) {
